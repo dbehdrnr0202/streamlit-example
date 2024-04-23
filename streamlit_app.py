@@ -1,7 +1,7 @@
-import numpy as np
-import pandas as pd
-import streamlit as st
-import altair as alt
+import numpy as np # type: ignore
+import pandas as pd # type: ignore
+import streamlit as st # type: ignore
+import altair as alt # type: ignore
 
 """
 # Welcome to Streamlit!
