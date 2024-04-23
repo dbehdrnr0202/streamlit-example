@@ -1,6 +1,6 @@
-import streamlit as st
-from PIL import Image
-import pandas as pd
+import streamlit as st # type: ignore
+from PIL import Image # type: ignore
+import pandas as pd # type: ignore
 
 def create_layout():
     col1,col2 = st.columns([2,3])
