@@ -2,6 +2,8 @@ import streamlit as st # type: ignore
 from PIL import Image # type: ignore
 import pandas as pd # type: ignore
 import map
+import chatbot
+
 def create_layout():
     # 공간을 2:3 으로 분할 후, col1과 col2라는 이름을 가진 컬럼을 생성합니다.  
     col1,col2 = st.columns([2,3])
@@ -36,7 +38,17 @@ def create_sidebar(origin_df:pd.DataFrame, columns:list[str]):
     st.table(tmp_df.head())
     
     selected_multi_columns = st.sidebar.multiselect('확인하고자 하는 컬럼들을 선택해 주세요. 복수선택가능',columns)
+    menu_selection = st.sidebar.radio("메뉴 선택", ["메뉴1", "메뉴2", "챗지피티"])
 
+    # 메뉴에 따라 다른 동작 수행
+    if menu_selection == "메뉴1":
+        st.write("메뉴1을 선택하셨습니다.")
+    elif menu_selection == "메뉴2":
+        st.write("메뉴2를 선택하셨습니다.")
+    elif menu_selection == "챗지피티":
+        st.empty()
+        st.write("챗지피티를 선택하셨습니다.")
+        chatbot.create_chat_gpt()
     tmp_df = []
     st.table(tmp_df)
 
@@ -77,7 +89,6 @@ def print_slider(df, select_multi_species, columns):
     start_button = st.sidebar.button(
         "apply filter"
     )
-
     # button이 눌리는 경우 start_button의 값이 true로 바뀌게 된다.
     # 이를 이용해서 if문으로 버튼이 눌렸을 때를 구현 
     if start_button:

@@ -4,7 +4,10 @@ import numpy as np # type: ignore
 import pydeck as pdk # type: ignore
 import layout
 import map
+from dotenv import load_dotenv
+
 # 기본 형식
+
 def main():
     # 화면에 관해 처리를 하고 싶다면 st를 사용해야한다.
     st.title('시각화 팀 프로젝트')
@@ -15,6 +18,8 @@ def main():
     layout.create_layout()
     layout.create_sidebar(pd.DataFrame({'a':[],'b':[]}), ['a', 'b'])
     layout.create_tab()    
+    st.empty()
     
 if __name__ == '__main__':
+    load_dotenv()
     main()
