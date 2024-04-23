@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pydeck as pdk
+import layout
 
 # 기본 형식
 def main():
@@ -11,7 +12,10 @@ def main():
     st.subheader('제주도 여행지 시각화')
     st.text('3조')
     st.markdown('**아름다운 섬 제주**, 어디로 놀러가면 좋을까?')
-
+    layout.create_layout()
+    layout.create_sidebar([], ['a', 'b'])
+    layout.create_tab()
+    
 if __name__ == '__main__':
     main()
 
