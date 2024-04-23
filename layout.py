@@ -5,7 +5,6 @@ import map
 def create_layout():
     # 공간을 2:3 으로 분할 후, col1과 col2라는 이름을 가진 컬럼을 생성합니다.  
     col1,col2 = st.columns([2,3])
-
     with col1 :
         st.title('here is column1')
     with col2 :
@@ -14,6 +13,7 @@ def create_layout():
     col1.subheader(' i am column1  subheader !! ')
     col2.checkbox('this is checkbox2 in col2 ') 
     map.print_map()
+    
 def create_tab():
     tab1, tab2= st.tabs(['Tab1' , 'Tab2'])
     with tab1:

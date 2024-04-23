@@ -13,7 +13,7 @@ def main():
     st.text('3조')
     st.markdown('**아름다운 섬 제주**, 어디로 놀러가면 좋을까?')
     layout.create_layout()
-    layout.create_sidebar([], ['a', 'b'])
+    layout.create_sidebar(pd.DataFrame({'a':[],'b':[]}), ['a', 'b'])
     layout.create_tab()    
     
 if __name__ == '__main__':
