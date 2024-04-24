@@ -15,6 +15,6 @@ def create_chat_gpt():
         messages = [{"role":"system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": query}]
         response = client.chat.completions.create(model="gpt-3.5-turbo", messages=messages)
-        msg = response.choices[0].message.content
-        st.session_state.messages.append({"role": "assistant", "content": msg})
-        st.chat_message("assistant").write(msg)
+        responsed_msg = response.choices[0].message.content
+        st.session_state.messages.append({"role": "assistant", "content": responsed_msg})
+        st.chat_message("assistant").write(responsed_msg)
