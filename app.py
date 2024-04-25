@@ -4,28 +4,17 @@ import numpy as np  # type: ignore
 import pydeck as pdk  # type: ignore
 import layout
 import map
-import chatbot
+from pages.chatbot import run_chat_bot
+from pages.main import run_main
+from pages.eda import run_eda
 from dotenv import load_dotenv
 from streamlit_option_menu import option_menu
 
-
-def main_page():
-    layout.show_main_page()
-
-
-def plot_page():
-    map.print_map()
-
-
-def chatbot_page():
-    chatbot.create_chat_gpt()
-
-
 def main():
     page_names_to_funcs = {
-        "메인 메뉴": main_page,
-        "데이터 시각화 페이지": plot_page,
-        "챗봇페이지": chatbot_page,
+        "메인 메뉴": run_main,
+        "데이터 시각화 페이지": run_eda,
+        "챗봇페이지": run_chat_bot,
     }
     st.markdown(
         """
