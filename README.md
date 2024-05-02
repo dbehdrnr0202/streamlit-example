@@ -7,3 +7,5 @@ forums](https://discuss.streamlit.io).
 First enter command below
 - chmod +x run.sh
 - ./run.sh
+
+안녕하세요!
