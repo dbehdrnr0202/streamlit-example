@@ -7,3 +7,5 @@ forums](https://discuss.streamlit.io).
 First enter command below
 - chmod +x run.sh
 - ./run.sh
+
+이 readme는 누군가가 다녀갔다
