@@ -21,7 +21,8 @@ def print_map_column(df:pd.DataFrame, column, differ_size:bool=False, radius:flo
                         size=column+"_rank",
                         text='방문지명',
                   color_continuous_scale=px.colors.cyclical.IceFire, size_max=3, zoom=10)
-    fig.show()
+    # fig.show()
+    return fig
     
 def print_pie_chart(df:pd.DataFrame, column:str, hole_size:float=0):
     fig = px.pie(df, 
@@ -29,4 +30,5 @@ def print_pie_chart(df:pd.DataFrame, column:str, hole_size:float=0):
                 title=f'Percentage of {column}')
     fig.update_traces(hoverinfo='label', textinfo='value+percent', textfont_size=20,
                   marker=dict(line=dict(color='#000000', width=2)), hole=hole_size)
-    fig.show()
+    # fig.show()
+    return fig
