@@ -5,4 +5,4 @@ then
     echo "Streamlit이 설치되어 있지 않습니다. 설치 중..."
     pip install streamlit
 fi
-streamlit run main.py
+python -m streamlit run main.py
