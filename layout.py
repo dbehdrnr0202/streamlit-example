@@ -6,7 +6,7 @@ import chatbot
 
 def create_layout():
     # 공간을 2:3 으로 분할 후, col1과 col2라는 이름을 가진 컬럼을 생성합니다.  
-    col1,col2 = st.columns([2,3])
+    col1, col2 = st.columns([2,3])
     with col1 :
         st.title('here is column1')
     with col2 :

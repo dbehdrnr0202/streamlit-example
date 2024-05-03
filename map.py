@@ -13,7 +13,7 @@ def print_map():
 
     st.text('두번째 지도')
     # 점의 크기와 색상을 지정
-    st.map(df, size=20, color='#0044ff')
+    st.map(df, size=10, color='#0044ff')
 
     st.text('세번째 지도')
     df = pd.DataFrame({
