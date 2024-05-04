@@ -64,7 +64,6 @@ if start_button:
             filtered_data[selected] = filtered_data[selected].map(selected_dict)
     grouped_df = filtered_data.groupby("방문지명").mean()
     grouped_df.reset_index(inplace=True)
-    print(grouped_df.head())
     st.plotly_chart(clustering(grouped_df, do_pca=True, n_clusters=k_number))
 else:
     st.text("좌측 사이드바를 사용해주세요~")

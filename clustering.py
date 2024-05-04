@@ -15,10 +15,6 @@ def clustering(data:pd.DataFrame, do_pca:bool=True, n_clusters:int=3):
     kmeans.fit(pca_data)
     final_df = pd.DataFrame({"방문지명":data['방문지명'], "군집":pca_data[:,0], "pca1":pca_data[:,0], "pca2":pca_data[:,1]})
     final_df['군집'] = kmeans.labels_
-    print("이거 뭐임",final_df['군집'].head())
-    # data['군집'] = kmeans.labels_
-    #print(data['cluster'])
-    # 클러스터링 결과 시각화
     plt.rc('font', family='Malgun Gothic')
     plt.figure(figsize=(10, 6))
     for cluster in range(n_clusters):
