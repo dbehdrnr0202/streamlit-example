@@ -39,7 +39,6 @@ for multi_select in multi_selected:
             filtered_df = filtered_df[filtered_df[multi_select].between(value_range[0], value_range[1])]
         else:
             value = st.sidebar.multiselect(f"{multi_select} 를 지정해주세요", options=df[multi_select].unique())
-            print(value)
             if value==[]:
                  value = df[multi_select].unique()
             filtered_df = filtered_df[filtered_df[multi_select].isin(value)]
