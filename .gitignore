@@ -3,3 +3,4 @@
 __pycache__
 .env
 data/
+print_plots.py
