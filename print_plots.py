@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import os
 
 def print_map_column(df:pd.DataFrame, column, differ_size:bool=False, radius:float=0.5):
@@ -31,4 +32,13 @@ def print_pie_chart(df:pd.DataFrame, column:str, hole_size:float=0):
     fig.update_traces(hoverinfo='label', textinfo='value+percent', textfont_size=20,
                   marker=dict(line=dict(color='#000000', width=2)), hole=hole_size)
     # fig.show()
+    return fig
+
+def print_nested_pie_chart(df:pd.DataFrame, columns:list):
+    grouped_data = df.groupby(columns).size().reset_index(name='count')
+    fig = px.sunburst(grouped_data, path=columns, values='count')
+    total_count = grouped_data['count'].sum()
+    grouped_data['percentage'] = grouped_data['count'] / total_count * 100
+    percentage_labels = grouped_data['percentage'].apply(lambda x: f'{x:.2f}%')
+    fig.update_traces(text=percentage_labels, textinfo='label+percent entry')
     return fig

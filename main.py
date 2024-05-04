@@ -4,7 +4,7 @@ import numpy as np  # type: ignore
 import pydeck as pdk  # type: ignore
 import layout
 import map
-import chatbot
+import pages.chatbot as chatbot
 from dotenv import load_dotenv
 from streamlit_option_menu import option_menu
 

@@ -3,7 +3,7 @@ from streamlit_option_menu import option_menu  # type: ignore
 from PIL import Image  # type: ignore
 import pandas as pd  # type: ignore
 import map
-import chatbot
+import pages.chatbot as chatbot
 import time
 
 
