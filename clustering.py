@@ -1,29 +1,37 @@
 import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 def clustering(data:pd.DataFrame, do_pca:bool=True, n_clusters:int=3):
-    if do_pca:
-        pca = PCA(n_components=2)
-        data = pca.fit_transform(data)
+    print(data)
+    scaler = MinMaxScaler()
+    scaled_data = scaler.fit_transform(data.drop(columns=['방문지명']))
+    pca = PCA(n_components=2)
+    pca_data = pca.fit_transform(scaled_data)
     kmeans = KMeans(n_clusters=n_clusters)
-    kmeans.fit(data)
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    color_dict = {
-        0: 'red', 
-        1: 'blue', 
-        2:'green'
-        # 3:'black'
-        }
-    for cluster in range(2):
-        cluster_sub_points = data[kmeans.labels_ == cluster]
-        print("클러스터",cluster_sub_points)
-        ax.scatter(cluster_sub_points[:, 0], cluster_sub_points[:, 1], c=color_dict[cluster], label='cluster_{}'.format(cluster))
-    ax.set_title('K-means on circle data, K=2')
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.legend() 
-    ax.grid()
+    kmeans.fit(pca_data)
+    final_df = pd.DataFrame({"방문지명":data['방문지명'], "군집":pca_data[:,0], "pca1":pca_data[:,0], "pca2":pca_data[:,1]})
+    final_df['군집'] = kmeans.labels_
+    print("이거 뭐임",final_df['군집'].head())
+    # data['군집'] = kmeans.labels_
+    #print(data['cluster'])
+    # 클러스터링 결과 시각화
+    plt.rc('font', family='Malgun Gothic')
+    plt.figure(figsize=(10, 6))
+    for cluster in range(n_clusters):
+        cluster_data = final_df[final_df['군집'] == cluster]
+        plt.scatter(cluster_data.iloc[:, 0], cluster_data.iloc[:, 1], label=f'Cluster {cluster}')
+        for i in range(len(cluster_data)):
+            plt.text(cluster_data.iloc[i, 0], cluster_data.iloc[i, 1], cluster_data.iloc[i]['방문지명'],
+                     fontsize=8, ha='right', va='bottom')
+    fig = px.scatter(final_df, x=final_df['pca1'], y=final_df['pca2'], color=final_df['군집'], hover_name=final_df['방문지명'])
+    plt.title('KMeans Clustering')
+    plt.xlabel('Feature 1')
+    plt.ylabel('Feature 2')
+    plt.legend()
+    plt.grid(True)
+
     return fig

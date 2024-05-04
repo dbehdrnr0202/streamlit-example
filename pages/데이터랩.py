@@ -10,16 +10,17 @@ def load_data(file_path):
     return df
 
 data = load_data("data/data_file.csv")
+data.dropna(inplace=True)
+st.title("여행지 별 군집 보기")
 columns = ['성별', '연령대', '소득수준', '만족도', '추천 의향 점수']
-multi_selected = st.sidebar.multiselect('구분자 선택', columns)
+k_number = st.sidebar.number_input("군집 갯수를 입력하세요", value=3, placeholder="입력란")
 start_button = st.sidebar.button(
-    "filter apply 📊 "#"버튼에 표시될 내용"
+    "filter apply 📊 "
 )
 if start_button:
-    filtered_data = data.copy(deep=True)
-    for selected in multi_selected:
+    filtered_data = data[columns+['방문지명']].copy(deep=True)
+    for selected in columns:
         if selected=='소득수준':
-            print(selected)
             selected_dict = {
                 '월평균 100만원 미만':50, 
                 '월평균 100만원 ~ 200만원 미만':150, 
@@ -37,6 +38,9 @@ if start_button:
         elif selected=='성별':
             selected_dict  = {'남':0, '여':1}
             filtered_data[selected] = filtered_data[selected].map(selected_dict)
-    st.plotly_chart(clustering(filtered_data[multi_selected], do_pca=False))
+    grouped_df = filtered_data.groupby("방문지명").mean()
+    grouped_df.reset_index(inplace=True)
+    print(grouped_df.head())
+    st.plotly_chart(clustering(grouped_df, do_pca=True, n_clusters=k_number))
 else:
     st.text("좌측 사이드바를 사용해주세요~")

@@ -9,7 +9,6 @@ import io
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 load_dotenv()
-# 여행지 방문 데이터 불러오기
 
 @st.cache_data
 def load_data(file_path):
@@ -27,7 +26,6 @@ multi_select_columns = ['성별', '연령대', '소득수준', '동반 여행 �
        '여행자 유형']
 st.title('여행지 방문 데이터 시각화')
 st.sidebar.title('데이터 차트 시각화')
-# 성별 및 연령대 필터링 옵션 추가
 multi_selected = st.sidebar.multiselect("구분자 선택", multi_select_columns)
 if multi_selected=='여행자 유형':
     여행자_유형 = ['자연 vs 도시', '숙박 vs 당일', '새로운 지역 vs 익숙한 지역','편하지만 비싼 숙소 vs 불편하지만 저렴한 숙소', '휴양/휴식 vs 체험활동',
@@ -47,11 +45,10 @@ for multi_select in multi_selected:
                  value = filtered_df[multi_select].unique()
             filtered_df = filtered_df[filtered_df[multi_select].isin(value)]
 start_button = st.sidebar.button(
-    "filter apply 📊 "#"버튼에 표시될 내용"
+    "filter apply 📊 "
 )
 if multi_selected==[]:
     multi_selected = ['성별', '연령대', '소득수준', '동반 여행 종류', '동반 인원수', '이동수단 방법', '동반자 관계', '동반자 연령대', '활동 유형']
-print(multi_selected)
 st.plotly_chart(print_plots.print_nested_pie_chart(filtered_df, multi_selected))
 if start_button:
     tabs = st.tabs(multi_selected)
