@@ -3,3 +3,10 @@ folium
 pandas
 streamlit
 streamlit_folium
+
+streamlit-option-menu
+openai
+python-dotenv
+streamlit_folium
+geopandas
+matplotlib
