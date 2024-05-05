@@ -55,5 +55,7 @@ if start_button:
         with tabs[tab_index]:
             st.plotly_chart(print_plots.print_map_column(filtered_df, selected_구분자))
             st.plotly_chart(print_plots.print_pie_chart(filtered_df, selected_구분자))
+            # st.plotly_chart(print_plots.plot_data(filtered_df, selected_구분자))
+            st.pyplot(print_plots.plot_data(filtered_df, selected_구분자))
 else:
     st.text("좌측 사이드바를 사용해주세요~")
