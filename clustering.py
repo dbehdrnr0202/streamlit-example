@@ -18,6 +18,7 @@ def clustering(data:pd.DataFrame, do_pca:bool=True, n_clusters:int=3):
     cluster_dict = {num:'군집'+str(num+1) for num in range(n_clusters)}
     final_df['군집']=final_df['군집'].map(cluster_dict)
     plt.rc('font', family='Malgun Gothic')
+    # plt.rc('font', family='AppleGothic')
     plt.figure(figsize=(10, 6))
     for cluster in range(n_clusters):
         cluster_data = final_df[final_df['군집'] == cluster]
