@@ -8,8 +8,12 @@ from streamlit_folium import folium_static
 
 # 여행지 방문 데이터 불러오기
 # @st.cache
-url = 'https://raw.githubusercontent.com/JSK961/streamlit-example/master/final_df_0425.csv'
-data = pd.read_csv(url)
+# url = 'https://raw.githubusercontent.com/JSK961/streamlit-example/master/final_df_0425.csv'
+@st.cache_data
+def load_data(file_path):
+    df = pd.read_csv(file_path)
+    return df
+data = load_data("data/data_file.csv")
 data.dropna(inplace=True)
 print(data.shape)
 

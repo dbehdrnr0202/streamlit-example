@@ -30,7 +30,6 @@ import pandas as pd
 data = pd.read_csv('data/data_file.csv')
 data.dropna(inplace=True)
 
-
 data['adm_nm'] = data.지번주소.apply(lambda x: ' '.join(x.split()[:3]))
 dic_addr = {'화북일동':'화북동', '화북이동':'화북동',
             '삼양일동':'삼양동', '삼양이동':'삼양동',
@@ -74,43 +73,36 @@ for multi_select in multi_selected:
             if value==[]:
                  value = filtered_df[multi_select].unique()
             filtered_df = filtered_df[filtered_df[multi_select].isin(value)]
-start_button = st.sidebar.button(
-    "filter apply 📊 "
-)
+
 if multi_selected==[]:
-    multi_selected = ['성별', '연령대', '소득수준', '동반 여행 종류', '동반 인원수', '이동수단 방법', '동반자 관계', '동반자 연령대', '활동 유형']
+    multi_selected = ['성별']
 
-if start_button:
-    tabs = st.tabs(multi_selected)
-    for tab_index, selected_구분자 in enumerate(multi_selected):
-        with tabs[tab_index]:
-            # '지번주소'를 기반으로 방문 횟수 집계
-            df_count = filtered_df['adm_nm'].value_counts().reset_index()
-            df_count.columns = ['adm_nm', 'visit_counts']
-            # jeju_map에 병합
-            jeju_map = jeju_map.merge(df_count, on='adm_nm', how='left')
-            # Title of the Streamlit app
-            st.title('Jeju Island Administrative Map - ehdms')
 
-            # Initialize the map at a central point on Jeju Island
-            m = folium.Map(location=[33.3617, 126.5292], zoom_start=10)
-
-            colormap = linear.YlGn_09.scale(
-                jeju_map.visit_counts.min(), jeju_map.visit_counts.max()
-            )
-            df_dict = jeju_map.set_index("adm_nm")["visit_counts"]
-            # Add the GeoJSON overlay to the map
-            folium.GeoJson(
-                jeju_map,
-                name='Jeju Administrative Areas',
-                style_function= lambda feature:{
-                    'fillColor': colormap(df_dict[int(feature['id'])]),
-                    'color': 'black',
-                    'weight': 2,
-                    'dashArray': '5, 5',
-                    'fillOpacity': 0.6
-                },
-                tooltip=folium.GeoJsonTooltip(fields=['adm_nm'], labels=True)  # Using 'adm_nm' as the field name
-            ).add_to(m)
-            st_data = st_folium(m, width=725, height=500)
-            st.write("Interactive map of Jeju Island showing different administrative regions.")
+tabs = st.tabs(multi_selected)
+for tab_index, selected_구분자 in enumerate(multi_selected):
+    with tabs[tab_index]:
+        df_count = filtered_df['adm_nm'].value_counts().reset_index()
+        print(df_count.head())
+        jeju_map = jeju_map.merge(df_count, on='adm_nm', how='left')
+        print("컬럼들", jeju_map.columns)
+        m = folium.Map(location=[33.3617, 126.5292], zoom_start=10)
+        colormap = linear.YlGn_09.scale(
+            df_count['count'].min()/len(df_count), df_count['count'].max()/len(df_count)
+        )
+        df_dict = jeju_map.set_index("adm_nm").reset_index()
+        print("제주", jeju_map.columns)
+        print("딕셔너리")
+        jeju_map.drop(columns=['adm_cd'])
+        folium.GeoJson(
+            jeju_map,
+            name='Jeju Administrative Areas',
+            style_function= lambda feature:{
+                'fillColor': colormap(df_dict.index[int(feature['id'])]),
+                'color': 'black',
+                'weight': 2,
+                'dashArray': '5, 5',
+                'fillOpacity': 0.6
+            },
+            tooltip=folium.GeoJsonTooltip(fields=['adm_nm'], labels=True)
+        ).add_to(m)
+        st_data = st_folium(m, width=725, height=500)
