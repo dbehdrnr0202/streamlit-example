@@ -15,6 +15,8 @@ def clustering(data:pd.DataFrame, do_pca:bool=True, n_clusters:int=3):
     kmeans.fit(pca_data)
     final_df = pd.DataFrame({"방문지명":data['방문지명'], "군집":pca_data[:,0], "pca1":pca_data[:,0], "pca2":pca_data[:,1]})
     final_df['군집'] = kmeans.labels_
+    cluster_dict = {num:'군집'+str(num+1) for num in range(n_clusters)}
+    final_df['군집']=final_df['군집'].map(cluster_dict)
     plt.rc('font', family='Malgun Gothic')
     plt.figure(figsize=(10, 6))
     for cluster in range(n_clusters):
@@ -30,4 +32,4 @@ def clustering(data:pd.DataFrame, do_pca:bool=True, n_clusters:int=3):
     plt.legend()
     plt.grid(True)
 
-    return fig
+    return fig, final_df

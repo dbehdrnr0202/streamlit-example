@@ -40,7 +40,7 @@ for multi_select in multi_selected:
 start_button = st.sidebar.button(
     "filter apply 📊 "
 )
-
+dfs = []
 if start_button:
     filtered_data = filtered_df[columns+['방문지명']].copy(deep=True)
     for selected in columns:
@@ -64,6 +64,15 @@ if start_button:
             filtered_data[selected] = filtered_data[selected].map(selected_dict)
     grouped_df = filtered_data.groupby("방문지명").mean()
     grouped_df.reset_index(inplace=True)
-    st.plotly_chart(clustering(grouped_df, do_pca=True, n_clusters=k_number))
+    fig, return_df = clustering(grouped_df, do_pca=True, n_clusters=k_number)
+    st.plotly_chart(fig)
+    dfs = [return_df[return_df['군집']=='군집'+str(num)] for num in range(1, k_number+1)]
+    for index in range(1, k_number+1):
+        st.write('군집'+str(index))
+        print(filtered_data.info(), dfs[index-1].info())
+        cluster_df = pd.merge(left=dfs[index-1], right=grouped_df, on='방문지명', how='inner')
+        st.dataframe(cluster_df.drop(columns=['군집', 'pca1', 'pca2']).rename({"성별":"남/여 비율(%)", "소득수준":"소득수준(만원)"}),width=1000)
+
+
 else:
     st.text("좌측 사이드바를 사용해주세요~")
