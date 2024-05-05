@@ -2,6 +2,7 @@ import streamlit as st
 import geopandas as gpd
 import folium
 from streamlit_folium import st_folium
+from branca.colormap import linear
 
 # Load GeoJSON file using GeoPandas
 jeju_map = gpd.read_file("data/jeju.geojson")
@@ -47,35 +48,24 @@ st.title('Jeju Island Administrative Map - ehdms')
 # Initialize the map at a central point on Jeju Island
 m = folium.Map(location=[33.3617, 126.5292], zoom_start=10)
 
-# 색상을 동적으로 조정하는 함수
-def style_function(feature):
-    count = feature['properties']['visit_counts']
-    if count is None:
-        fillColor = 'black'
-    else:
-        intensity = max(0, 255 - int(min(count, 100) * 2.55))
-        fillColor = f'#00{intensity:02x}00'
-    
-    return {
-        'fillColor': fillColor,
-        'color': 'black',
-        'weight': 2,
-        'dashArray': '5, 5',
-        'fillOpacity': 0.6
-    }
+colormap = linear.YlGn_09.scale(
+                jeju_map.visit_counts.min(), jeju_map.visit_counts.max()
+            )
+df_dict = jeju_map.set_index("adm_nm")["visit_counts"]
 
 # Add the GeoJSON overlay to the map
 folium.GeoJson(
     jeju_map,
     name='Jeju Administrative Areas',
-    style_function=style_function,
+    style_function=lambda feature:{
+                    'fillColor': colormap(df_dict[int(feature['id'])]),
+                    'color': 'black',
+                    'weight': 2,
+                    'dashArray': '5, 5',
+                    'fillOpacity': 0.6
+                },
     tooltip=folium.GeoJsonTooltip(fields=['adm_nm'], labels=True)  # Using 'adm_nm' as the field name
 ).add_to(m)
 
-# print(jeju_map[['adm_nm','visit_counts']])
-
 # Display the map in Streamlit
-st_data = st_folium(m, width=725, height=500)
-
-# Add some textual information or additional controls if needed
-st.write("Interactive map of Jeju Island showing different administrative regions.")
+st_folium(m, width=725, height=500)
