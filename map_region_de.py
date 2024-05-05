@@ -50,13 +50,11 @@ m = folium.Map(location=[33.3617, 126.5292], zoom_start=10)
 # 색상을 동적으로 조정하는 함수
 def style_function(feature):
     count = feature['properties']['visit_counts']
-    print('this is count', count)
     if count is None:
         fillColor = 'black'
     else:
         intensity = max(0, 255 - int(min(count, 100) * 2.55))
         fillColor = f'#00{intensity:02x}00'
-    
     
     return {
         'fillColor': fillColor,
