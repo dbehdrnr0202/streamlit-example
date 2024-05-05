@@ -1,5 +1,5 @@
 .vscode
 .devcontainer
 __pycache__
-.env
+img/
 data/
