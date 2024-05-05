@@ -1,25 +1,64 @@
-import streamlit as st # type: ignore
-import pandas as pd # type: ignore
-import numpy as np # type: ignore
-import pydeck as pdk # type: ignore
+import streamlit as st  # type: ignore
+import pandas as pd  # type: ignore
+import numpy as np  # type: ignore
+import pydeck as pdk  # type: ignore
 import layout
 import map
+import pages.chatbot as chatbot
 from dotenv import load_dotenv
+from streamlit_option_menu import option_menu
 
-# 기본 형식
+
+def main_page():
+    layout.show_main_page()
+
+
+def plot_page():
+    map.print_map()
+
+
+def chatbot_page():
+    chatbot.create_chat_gpt()
+
 
 def main():
-    # 화면에 관해 처리를 하고 싶다면 st를 사용해야한다.
-    st.title('시각화 팀 프로젝트')
-    # 대부분 main에서 작업을 한다.
-    st.subheader('제주도 여행지 시각화')
-    st.text('3조')
-    st.markdown('**아름다운 섬 제주**, 어디로 놀러가면 좋을까?')
-    layout.create_layout()
-    layout.create_sidebar(pd.DataFrame({'a':[],'b':[]}), ['a', 'b'])
-    layout.create_tab()    
-    st.empty()
-    
-if __name__ == '__main__':
+    page_names_to_funcs = {
+        "메인 메뉴": main_page,
+        "데이터 시각화 페이지": plot_page,
+        "챗봇페이지": chatbot_page,
+    }
+    st.markdown(
+        """
+        <style>
+            [data-testid=stSidebar] {
+                background-color: #E9EDC9;
+        }
+        </style>
+    """,
+        unsafe_allow_html=True,
+    )
+    with st.sidebar:
+        page_name = option_menu(
+            "Menu",
+            ["메인 메뉴", "데이터 시각화 페이지", "챗봇페이지"],
+            icons=["house", "kanban", "bi bi-robot"],
+            menu_icon="app-indicator",
+            default_index=0,
+            styles={
+                "container": {"padding": "4!important", "background-color": "#FEFAE0"},
+                "icon": {"color": "#D4A373", "font-size": "25px"},
+                "nav-link": {
+                    "font-size": "16px",
+                    "text-align": "left",
+                    "margin": "0px",
+                    "--hover-color": "black",
+                },
+                "nav-link-selected": {"background-color": "#CCD5AE"},
+            },
+        )
+    page_names_to_funcs[page_name]()
+
+
+if __name__ == "__main__":
     load_dotenv()
     main()
