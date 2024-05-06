@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
-
+import os
 @st.cache_data
 def load_data(file_path):
     df = pd.read_csv(file_path, index_col=False)
@@ -64,6 +64,7 @@ if start_button:
     sorted_df.index = np.arange(1, len(sorted_df)+1)
     top_10_df.index = np.arange(1, len(top_10_df)+1)
     st.dataframe(top_10_df.drop(columns=['GPS X좌표', 'GPS Y좌표']))
+    px.set_mapbox_access_token(os.environ.get('MAPBOX_API_TOKEN'))
     st.plotly_chart(px.scatter_mapbox(top_10_df, 
                         lat="GPS Y좌표", 
                         lon="GPS X좌표",     

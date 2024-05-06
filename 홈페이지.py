@@ -4,6 +4,8 @@ import numpy as np  # type: ignore
 import pydeck as pdk  # type: ignore
 from dotenv import load_dotenv
 from streamlit_option_menu import option_menu
+import plotly.express as px
+import os
 
 
 def main():
@@ -33,3 +35,4 @@ def main():
 if __name__ == "__main__":
     load_dotenv()
     main()
+    px.set_mapbox_access_token(os.environ.get('MAPBOX_API_TOKEN'))
