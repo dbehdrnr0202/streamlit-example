@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-import folium
-from streamlit_folium import folium_static
+# import folium
+# from streamlit_folium import folium_static
 from clustering import clustering
 import numpy as np
 
@@ -19,8 +19,8 @@ columns = ['성별', '연령대', '소득수준', '만족도', '추천 의향 �
 multi_select_columns = ['성별', '연령대', '소득수준', '동반 여행 종류', '동반 인원수', '동반자 관계', '동반자 연령대', 
        '여행지 유형', '만족도', '추천 의향 점수', '활동 유형', '소비인원', '결제금액',
        '여행동기_1', '여행동기_2', '여행동기_3', '동반자 성별',
-       '1순위 여행목적', '2순위 여행목적', '3순위 여행목적', '여행 시작 월', '여행 시작 연도',
-       '여행자 유형']
+       '1순위 여행목적', '2순위 여행목적', '3순위 여행목적', '여행 시작 월', '여행 시작 연도'#,'여행자 유형'
+       ]
 multi_selected = st.sidebar.multiselect("구분자 선택", multi_select_columns)
 if multi_selected=='여행자 유형':
     여행자_유형 = ['자연 vs 도시', '숙박 vs 당일', '새로운 지역 vs 익숙한 지역','편하지만 비싼 숙소 vs 불편하지만 저렴한 숙소', '휴양/휴식 vs 체험활동',
@@ -71,8 +71,7 @@ if start_button:
         st.write('군집'+str(index))
         print(filtered_data.info(), dfs[index-1].info())
         cluster_df = pd.merge(left=dfs[index-1], right=grouped_df, on='방문지명', how='inner')
-        st.dataframe(cluster_df.drop(columns=['군집', 'pca1', 'pca2']).rename({"성별":"남/여 비율(%)", "소득수준":"소득수준(만원)"}),width=1000)
-
+        st.dataframe(cluster_df.drop(columns=['군집', 'pca1', 'pca2']).rename(columns={"성별":"남/여 비율(%)", "소득수준":"소득수준(만원)"}),width=1000)
 
 else:
     st.text("좌측 사이드바를 사용해주세요~")

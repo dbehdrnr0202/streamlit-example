@@ -1,7 +1,13 @@
 altair
+contextily
 folium
+geopandas
+matplotlib
 pandas
 streamlit
+streamlit_chat
+streamlit_folium
 streamlit-option-menu
 openai
+plotly
 python-dotenv

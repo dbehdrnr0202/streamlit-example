@@ -2,10 +2,10 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import os
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import contextily as ctx
-from ipywidgets import interact, Dropdown
+# import geopandas as gpd
+# import matplotlib.pyplot as plt
+# import contextily as ctx
+# from ipywidgets import interact, Dropdown
 import json
 
 def print_map_column(df:pd.DataFrame, column, differ_size:bool=False, radius:float=0.5):
@@ -48,33 +48,33 @@ def print_nested_pie_chart(df:pd.DataFrame, columns:list):
     fig.update_traces(text=percentage_labels, textinfo='label+percent entry')
     return fig
 
-def plot_data(df, trip_type):
-    gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df['GPS X좌표'], df['GPS Y좌표']))
-    gdf.crs = "EPSG:4326"  # 원본 데이터의 좌표계 설정
-    gdf = gdf.to_crs(epsg=3857)
-    filtered_data = gdf[gdf['동반 여행 종류'] == trip_type]
-    fig, ax = plt.subplots(figsize=(10, 6))
-    filtered_data.plot(ax=ax, color='blue', markersize=100, alpha=0.6)
-    ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-    ax.set_axis_off()
-    plt.show()
-    return fig
+# def plot_data(df, trip_type):
+#     gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df['GPS X좌표'], df['GPS Y좌표']))
+#     gdf.crs = "EPSG:4326"  # 원본 데이터의 좌표계 설정
+#     gdf = gdf.to_crs(epsg=3857)
+#     filtered_data = gdf[gdf['동반 여행 종류'] == trip_type]
+#     fig, ax = plt.subplots(figsize=(10, 6))
+#     filtered_data.plot(ax=ax, color='blue', markersize=100, alpha=0.6)
+#     ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+#     ax.set_axis_off()
+#     plt.show()
+#     return fig
 
-def plot_data(df, trip_type):
-    filtered_df = df[df['동반 여행 종류']==trip_type]
-    with open('data/jeju.geojson', 'r') as f:
-        jeju_geo = json.load(f)
-    fig = px.choropleth_mapbox(filtered_df,
-                           geojson=jeju_geo,
-                           locations='지번주소',
-                           color='동반 여행 종류',
-                           color_continuous_scale='viridis', featureidkey = 'properties.adm_nm',
-                           mapbox_style='carto-positron',
-                           zoom=9.5,
-                           center = {"lat": df['GPS Y좌표'].mean(), "lon": df['GPS X좌표'].mean()},
-                           opacity=0.5,
-                          )
-    return fig
+# def plot_data(df, trip_type):
+#     filtered_df = df[df['동반 여행 종류']==trip_type]
+#     with open('data/jeju.geojson', 'r') as f:
+#         jeju_geo = json.load(f)
+#     fig = px.choropleth_mapbox(filtered_df,
+#                            geojson=jeju_geo,
+#                            locations='지번주소',
+#                            color='동반 여행 종류',
+#                            color_continuous_scale='viridis', featureidkey = 'properties.adm_nm',
+#                            mapbox_style='carto-positron',
+#                            zoom=9.5,
+#                            center = {"lat": df['GPS Y좌표'].mean(), "lon": df['GPS X좌표'].mean()},
+#                            opacity=0.5,
+#                           )
+#     return fig
 
 def print_corr_plot(df : pd.DataFrame, column1:str, column2 : str) :
     ord_dict = {'소득수준' : ['소득없음', '월평균 100만원 미만', '월평균 100만원 ~ 200만원 미만', '월평균 200만원 ~ 300만원 미만', '월평균 300만원 ~ 400만원 미만', '월평균 400만원 ~ 500만원 미만', '월평균 500만원 ~ 600만원 미만', '월평균 600만원 ~ 700만원 미만', '월평균 700만원 ~ 800만원 미만', '월평균 800만원 ~ 900만원 미만', '월평균 900만원 ~ 1,000만원 미만', '월평균 1,000만원 이상'],
@@ -94,10 +94,10 @@ def print_corr_plot(df : pd.DataFrame, column1:str, column2 : str) :
     if column1 in ord_dict.keys() and column2 in ord_dict.keys() :
         fig = px.density_heatmap(df, x = column1, y = column2, marginal_x = 'histogram', marginal_y = 'histogram', text_auto = True, category_orders={column1: ord_dict[column1], column2: ord_dict[column2]})
     elif column1 in ord_dict.keys() :
-        fig = px.density_heatmap(df, x = column1, y = column2, marginal_x = 'histogram', marginal_y = 'histogram', text_auto = True, category_orders={column1: ord_dict[column1]})
+        fig = px.density_heatmap(df, x = column1, y = column2, marginal_x = 'histogram', marginal_y = 'histogram', text_auto = True, category_orders={column1: ord_dict[column1]},title=f'Density Heatmap of {column1} and {column2}')
     elif column2 in ord_dict.keys() :
-        fig = px.density_heatmap(df, x = column1, y = column2, marginal_x = 'histogram', marginal_y = 'histogram', text_auto = True, category_orders={column2: ord_dict[column2]})
+        fig = px.density_heatmap(df, x = column1, y = column2, marginal_x = 'histogram', marginal_y = 'histogram', text_auto = True, category_orders={column2: ord_dict[column2]},title=f'Density Heatmap of {column1} and {column2}')
     else :
-        fig = px.density_heatmap(df, x = column1, y = column2, marginal_x = 'histogram', marginal_y = 'histogram', text_auto = True)
+        fig = px.density_heatmap(df, x = column1, y = column2, marginal_x = 'histogram', marginal_y = 'histogram', text_auto = True,title=f'Density Heatmap of {column1} and {column2}')
     #fig.show()
     return fig

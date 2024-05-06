@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
-import folium
-from streamlit_folium import folium_static
-import print_plots
 import numpy as np
+# import folium
+# from streamlit_folium import folium_static
+# import print_plots
 
 @st.cache_data
 def load_data(file_path):
@@ -49,8 +49,8 @@ start_button = st.sidebar.button(
 if start_button:
     csv = convert_df(filtered_df) 
     st.dataframe(filtered_df)
-    st.download_button(label='필터링된 그래프 이미지 다운받기',
+    st.download_button(label='필터링된 데이터 다운받기',
                        data=csv,
-                       file_name='filtered_dataframe.png',
+                       file_name='filtered_dataframe.csv',
                        mime="text/csv",)
 

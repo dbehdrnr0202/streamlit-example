@@ -1,8 +1,5 @@
 import streamlit as st
 import pandas as pd
-import folium
-from streamlit_folium import folium_static
-import print_plots
 import numpy as np
 import plotly.express as px
 
@@ -23,11 +20,10 @@ sorted_radio = st.sidebar.radio("정렬 기준을 선택하세욤", ["만족도"
 sort_reverse = st.sidebar.toggle("역순 정렬")
 bottom_value = st.sidebar.slider("최소 방문횟수 범위를 선택해주세요.", 0, 50, step=10)
 
-multi_select_columns = ['성별', '연령대', '소득수준', '동반 여행 종류', '동반 인원수', '동반자 관계', '동반자 연령대', '방문지명', 
+multi_select_columns = ['성별', '연령대', '소득수준', '동반 여행 종류', '동반 인원수', '동반자 관계', '동반자 연령대', 
        '여행지 유형', '만족도', '추천 의향 점수', '활동 유형', '소비인원', '결제금액',
        '여행동기_1', '여행동기_2', '여행동기_3', '동반자 성별',
-       '1순위 여행목적', '2순위 여행목적', '3순위 여행목적', '여행 시작 월', '여행 시작 연도',
-       '여행자 유형']
+       '1순위 여행목적', '2순위 여행목적', '3순위 여행목적', '여행 시작 월', '여행 시작 연도']
 
 multi_selected = st.sidebar.multiselect("구분자 선택", multi_select_columns)
 if multi_selected=='여행자 유형':

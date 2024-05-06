@@ -1,28 +1,22 @@
-# file_name : map_de.py
-# last modified : 24/05/04
-# purpose : use streamlit, folium to filter by gender & ages
 import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import folium_static
 
 # 여행지 방문 데이터 불러오기
-# @st.cache
-# url = 'https://raw.githubusercontent.com/JSK961/streamlit-example/master/final_df_0425.csv'
 @st.cache_data
 def load_data(file_path):
     df = pd.read_csv(file_path)
     return df
 data = load_data("data/data_file.csv")
 data.dropna(inplace=True)
-print(data.shape)
 
 # 지도 초기 위치 설정
 map_center = [data['GPS Y좌표'].mean(),data['GPS X좌표'].mean()]
-map = folium.Map(location=map_center, zoom_start=11)
+map = folium.Map(location=map_center, zoom_start=10)
 
 # 스트림릿 앱 제목 설정
-st.title('여행지 방문 데이터 시각화_by folium')
+st.title('이동 수단별 여행지 분포')
 
 # 이동수단 옵션 설정
 transportation = st.selectbox('이동수단 방법', ['대중교통 등', '자가용'], index=None, placeholder='이동수단을 선택하세요.')

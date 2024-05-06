@@ -15,6 +15,9 @@ gdf = load_data()
 gdf.crs = "EPSG:4326"  # 원본 데이터의 좌표계 설정
 gdf = gdf.to_crs(epsg=3857)  # Web Mercator 좌표계로 변환
 
+# 페이지 제목
+st.title('동반자 유형별 여행지 분포')
+
 # Streamlit 인터페이스
 trip_type = st.selectbox('동반 여행 종류 선택', gdf['동반 여행 종류'].unique())
 

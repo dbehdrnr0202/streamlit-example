@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
-import folium
-from streamlit_folium import folium_static
+# import folium
+# from streamlit_folium import folium_static
 import print_plots
 import numpy as np
-import os
-import io
-import matplotlib.pyplot as plt
+# import os
+# import io
+# import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -22,8 +22,8 @@ map_center = [data['GPS Y좌표'].mean(), data['GPS X좌표'].mean()]
 multi_select_columns = ['성별', '연령대', '소득수준', '동반 여행 종류', '동반 인원수', '동반자 관계', '동반자 연령대', 
        '여행지 유형', '만족도', '추천 의향 점수', '활동 유형', '소비인원', '결제금액',
        '여행동기_1', '여행동기_2', '여행동기_3', '동반자 성별',
-       '1순위 여행목적', '2순위 여행목적', '3순위 여행목적', '여행 시작 월', '여행 시작 연도',
-       '여행자 유형']
+       '1순위 여행목적', '2순위 여행목적', '3순위 여행목적', '여행 시작 월', '여행 시작 연도' #,'여행자 유형'
+       ]
 st.title('여행지 방문 데이터 시각화')
 st.sidebar.title('데이터 차트 시각화')
 multi_selected = st.sidebar.multiselect("구분자 선택", multi_select_columns)
@@ -49,9 +49,6 @@ start_button = st.sidebar.button(
 if multi_selected==[]:
     multi_selected = ['성별', '연령대', '소득수준', '동반 여행 종류', '동반 인원수', '이동수단 방법', '동반자 관계', '동반자 연령대', '활동 유형']
 st.plotly_chart(print_plots.print_nested_pie_chart(filtered_df, multi_selected))
-if len(multi_selected)==2:
-    st.write("상관계수 차트 확인하기")
-    st.plotly_chart(print_plots.print_corr_plot(filtered_df, multi_selected[0], multi_selected[1]))
 if start_button:
     tabs = st.tabs(multi_selected)
     for tab_index, selected_구분자 in enumerate(multi_selected):
@@ -59,5 +56,8 @@ if start_button:
             st.plotly_chart(print_plots.print_map_column(filtered_df, selected_구분자))
             st.plotly_chart(print_plots.print_pie_chart(filtered_df, selected_구분자))
             # st.plotly_chart(print_plots.plot_data(filtered_df, selected_구분자))
+    if len(multi_selected)==2:
+        st.plotly_chart(print_plots.print_corr_plot(filtered_df, multi_selected[0], multi_selected[1]))
+
 else:
     st.text("좌측 사이드바를 사용해주세요~")

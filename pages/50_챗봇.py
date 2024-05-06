@@ -1,13 +1,12 @@
 import openai
 import streamlit as st
-from streamlit_chat import message
+# from streamlit_chat import message
 import os
-import time
+# import time
 
-
-def get_text():
-    input_text = st.text_input("You: ", "", key="input")
-    return input_text
+# def get_text():
+#     input_text = st.text_input("You: ", "", key="input")
+#     return input_text
 
 st.title("💬 Chatbot")
 st.caption("🚀 A streamlit chatbot powered by OpenAI LLM")
