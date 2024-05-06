@@ -2,4 +2,3 @@
 .vscode
 .devcontainer
 __pycache__
-data/
