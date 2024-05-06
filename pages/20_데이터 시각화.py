@@ -27,6 +27,8 @@ multi_select_columns = ['성별', '연령대', '소득수준', '동반 여행 �
 st.title('여행지 방문 데이터 시각화')
 st.sidebar.title('데이터 차트 시각화')
 multi_selected = st.sidebar.multiselect("구분자 선택", multi_select_columns)
+marker_size = st.sidebar.slider(label="마커 사이즈 조정", min_value=3, max_value=10)
+
 if multi_selected=='여행자 유형':
     여행자_유형 = ['자연 vs 도시', '숙박 vs 당일', '새로운 지역 vs 익숙한 지역','편하지만 비싼 숙소 vs 불편하지만 저렴한 숙소', '휴양/휴식 vs 체험활동',
        '잘 알려지지 않은 방문지 vs 알려진 방문지', '계획에 따른 여행 vs 상황에 따른 여행','사진촬영 중요하지 않음 vs 사진촬영 중요함']
@@ -53,7 +55,7 @@ if start_button:
     tabs = st.tabs(multi_selected)
     for tab_index, selected_구분자 in enumerate(multi_selected):
         with tabs[tab_index]:
-            st.plotly_chart(print_plots.print_map_column(filtered_df, selected_구분자))
+            st.plotly_chart(print_plots.print_map_column(filtered_df, selected_구분자, size_max=marker_size))
             st.plotly_chart(print_plots.print_pie_chart(filtered_df, selected_구분자))
             # st.plotly_chart(print_plots.plot_data(filtered_df, selected_구분자))
     if len(multi_selected)==2:

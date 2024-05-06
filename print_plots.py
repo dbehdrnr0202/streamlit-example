@@ -8,7 +8,7 @@ import os
 # from ipywidgets import interact, Dropdown
 import json
 
-def print_map_column(df:pd.DataFrame, column, differ_size:bool=False, radius:float=0.5):
+def print_map_column(df:pd.DataFrame, column, differ_size:bool=False, radius:float=0.5, size_max:int=3):
     activity_dict = dict(df[column].value_counts())
     activities = [[v, k] for k, v in activity_dict.items()]
     if differ_size:
@@ -26,7 +26,7 @@ def print_map_column(df:pd.DataFrame, column, differ_size:bool=False, radius:flo
                         color=column, 
                         size=column+"_rank",
                         text='방문지명',
-                  color_continuous_scale=px.colors.cyclical.IceFire, size_max=3, zoom=10)
+                  color_continuous_scale=px.colors.cyclical.IceFire, size_max=size_max, zoom=10)
     # fig.show()
     return fig
     
