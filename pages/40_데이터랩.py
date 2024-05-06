@@ -44,36 +44,37 @@ dfs = []
 if start_button:
     if multi_selected == []:
         st.text('좌측 사이드바에서 구분자를 선택해주세요~')
-    filtered_data = filtered_df[columns+['방문지명']].copy(deep=True)
-    for selected in columns:
-        if selected=='소득수준':
-            selected_dict = {
-                '월평균 100만원 미만':50, 
-                '월평균 100만원 ~ 200만원 미만':150, 
-                '소득없음':0,
-                '월평균 600만원 ~ 700만원 미만':650,
-                '월평균 200만원 ~ 300만원 미만':250,
-                '월평균 300만원 ~ 400만원 미만':350, 
-                '월평균 500만원 ~ 600만원 미만':550,
-                '월평균 400만원 ~ 500만원 미만':450, 
-                '월평균 700만원 ~ 800만원 미만':750, 
-                '월평균 1,000만원 이상':1000,
-                '월평균 900만원 ~ 1,000만원 미만':950, 
-                '월평균 800만원 ~ 900만원 미만':850}
-            filtered_data[selected] = filtered_data[selected].map(selected_dict)
-        elif selected=='성별':
-            selected_dict  = {'남':0, '여':1}
-            filtered_data[selected] = filtered_data[selected].map(selected_dict)
-    grouped_df = filtered_data.groupby("방문지명").mean()
-    grouped_df.reset_index(inplace=True)
-    fig, return_df = clustering(grouped_df, do_pca=True, n_clusters=k_number)
-    st.plotly_chart(fig)
-    dfs = [return_df[return_df['군집']=='군집'+str(num)] for num in range(1, k_number+1)]
-    for index in range(1, k_number+1):
-        st.write('군집'+str(index))
-        print(filtered_data.info(), dfs[index-1].info())
-        cluster_df = pd.merge(left=dfs[index-1], right=grouped_df, on='방문지명', how='inner')
-        st.dataframe(cluster_df.drop(columns=['군집', 'pca1', 'pca2']).rename(columns={"성별":"남/여 비율(%)", "소득수준":"소득수준(만원)"}),width=1000)
+    else:
+        filtered_data = filtered_df[columns+['방문지명']].copy(deep=True)
+        for selected in columns:
+            if selected=='소득수준':
+                selected_dict = {
+                    '월평균 100만원 미만':50, 
+                    '월평균 100만원 ~ 200만원 미만':150, 
+                    '소득없음':0,
+                    '월평균 600만원 ~ 700만원 미만':650,
+                    '월평균 200만원 ~ 300만원 미만':250,
+                    '월평균 300만원 ~ 400만원 미만':350, 
+                    '월평균 500만원 ~ 600만원 미만':550,
+                    '월평균 400만원 ~ 500만원 미만':450, 
+                    '월평균 700만원 ~ 800만원 미만':750, 
+                    '월평균 1,000만원 이상':1000,
+                    '월평균 900만원 ~ 1,000만원 미만':950, 
+                    '월평균 800만원 ~ 900만원 미만':850}
+                filtered_data[selected] = filtered_data[selected].map(selected_dict)
+            elif selected=='성별':
+                selected_dict  = {'남':0, '여':1}
+                filtered_data[selected] = filtered_data[selected].map(selected_dict)
+        grouped_df = filtered_data.groupby("방문지명").mean()
+        grouped_df.reset_index(inplace=True)
+        fig, return_df = clustering(grouped_df, do_pca=True, n_clusters=k_number)
+        st.plotly_chart(fig)
+        dfs = [return_df[return_df['군집']=='군집'+str(num)] for num in range(1, k_number+1)]
+        for index in range(1, k_number+1):
+            st.write('군집'+str(index))
+            print(filtered_data.info(), dfs[index-1].info())
+            cluster_df = pd.merge(left=dfs[index-1], right=grouped_df, on='방문지명', how='inner')
+            st.dataframe(cluster_df.drop(columns=['군집', 'pca1', 'pca2']).rename(columns={"성별":"남/여 비율(%)", "소득수준":"소득수준(만원)"}),width=1000)
 
 else:
     st.text("좌측 사이드바를 사용해주세요~")
