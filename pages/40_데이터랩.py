@@ -42,7 +42,7 @@ start_button = st.sidebar.button(
 )
 dfs = []
 if start_button:
-    if filtered_df is None:
+    if multi_selected == []:
         st.text('좌측 사이드바에서 구분자를 선택해주세요~')
     filtered_data = filtered_df[columns+['방문지명']].copy(deep=True)
     for selected in columns:
