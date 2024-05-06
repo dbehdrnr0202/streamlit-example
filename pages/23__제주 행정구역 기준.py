@@ -94,3 +94,28 @@ folium.GeoJson(
     tooltip=folium.GeoJsonTooltip(fields=['adm_nm'], labels=True)
 ).add_to(m)
 st_data = st_folium(m, width=725, height=500)
+
+# # tabs = st.tabs(multi_selected)
+# for tab_index, selected_구분자 in enumerate(multi_selected):
+#     # with tabs[tab_index]:
+#     df_count = filtered_df['adm_nm'].value_counts().reset_index()
+#     jeju_map = jeju_map.merge(df_count, on='adm_nm', how='left')
+#     m = folium.Map(location=[33.3617, 126.5292], zoom_start=10)
+#     colormap = linear.YlGn_09.scale(
+#         df_count['count'].min()/len(df_count), df_count['count'].max()/len(df_count)
+#     )
+#     df_dict = jeju_map.set_index("adm_nm").reset_index()
+#     jeju_map.drop(columns=['adm_cd'])
+#     folium.GeoJson(
+#         jeju_map,
+#         name='Jeju Administrative Areas',
+#         style_function= lambda feature:{
+#             'fillColor': colormap(df_dict.index[int(feature['id'])]),
+#             'color': 'black',
+#             'weight': 2,
+#             'dashArray': '5, 5',
+#             'fillOpacity': 0.6
+#         },
+#         tooltip=folium.GeoJsonTooltip(fields=['adm_nm'], labels=True)
+#     ).add_to(m)
+#     st_data = st_folium(m, width=725, height=500)
