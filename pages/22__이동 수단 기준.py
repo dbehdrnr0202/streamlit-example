@@ -23,7 +23,7 @@ transportation = st.selectbox('이동수단 방법', ['대중교통 등', '자�
 
 # 선택이 이루어지지 않았을 때의 기본 지도 표시 코드
 if not transportation:
-    map = folium.Map(location=map_center, zoom_start=11)
+    map = folium.Map(location=map_center, zoom_start=10)
     folium_static(map)
 
 elif transportation == '대중교통 등':
