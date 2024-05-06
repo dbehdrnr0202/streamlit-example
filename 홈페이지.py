@@ -13,7 +13,7 @@ def main():
     st.title('제주도 추천 여행코스 얍 !')
 
     # Path to the audio file
-    audio_file = 'data/태연_제주도의푸른밤.mp3'
+    audio_file = 'data/태연_제주도의푸른밤.mp3'
 
     # Adding an audio player to play the MP3 file
     st.audio(audio_file, format='audio/mp3', start_time=0)
