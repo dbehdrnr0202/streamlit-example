@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import os
+import streamlit as st
 # import geopandas as gpd
 # import matplotlib.pyplot as plt
 # import contextily as ctx
@@ -39,6 +40,7 @@ def print_pie_chart(df:pd.DataFrame, column:str, hole_size:float=0):
     # fig.show()
     return fig
 
+@st.cache_data
 def print_nested_pie_chart(df:pd.DataFrame, columns:list):
     grouped_data = df.groupby(columns).size().reset_index(name='count')
     fig = px.sunburst(grouped_data, path=columns, values='count')
