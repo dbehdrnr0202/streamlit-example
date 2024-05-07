@@ -22,7 +22,7 @@ First enter command below
 - run code by entering `./run.sh` or `python -m streamlit run 홈페이지.py`
 
 .env setting
-
-
-    `OPENAI_API_KEY=OPEN_API_TOKEN`
-    `MAPBOX_API_TOKEN=MAPBOX_API_TOKEN`
+```
+OPENAI_API_KEY=OPEN_API_TOKEN
+MAPBOX_API_TOKEN=MAPBOX_API_TOKEN
+```
